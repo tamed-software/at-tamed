@@ -1,0 +1,18 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Contrato extends Model
+{
+    protected $table = 'contratos';
+
+    protected $fillable = ['tipo_contrato', 'descuento', 'plan', 'fecha_inicio', 'fecha_fin', 'inmobiliaria_id'];
+
+    //Relación de uno a uno
+    public function inmobiliaria() {
+    	//return $this->hasOne('App\Estado');
+    	return $this->belongsTo('App\Inmobiliaria');
+    }
+}

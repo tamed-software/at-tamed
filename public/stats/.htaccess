@@ -1,0 +1,7 @@
+AuthName "at.tamed.global statistics"
+AuthType Basic
+AuthUserFile /home/tamed/domains/at.tamed.global/.stats-htpasswd
+require valid-user
+<Files .stats-htpasswd>
+deny from all
+</Files>

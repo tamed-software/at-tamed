@@ -1,0 +1,23 @@
+[0;1;32m●[0m apache2.service - LSB: Apache2 web server
+   Loaded: loaded (/etc/init.d/apache2; bad; vendor preset: enabled)
+  Drop-In: /lib/systemd/system/apache2.service.d
+           └─apache2-systemd.conf
+   Active: [0;1;32mactive (running)[0m since Thu 2019-08-01 11:10:37 -04; 25min ago
+     Docs: man:systemd-sysv-generator(8)
+  Process: 1171 ExecStart=/etc/init.d/apache2 start (code=exited, status=0/SUCCESS)
+    Tasks: 7
+   Memory: 32.3M
+      CPU: 223ms
+   CGroup: /system.slice/apache2.service
+           ├─1299 /usr/sbin/apache2 -k start
+           ├─1302 /usr/sbin/apache2 -k start
+           ├─1303 /usr/sbin/apache2 -k start
+           ├─1304 /usr/sbin/apache2 -k start
+           ├─1305 /usr/sbin/apache2 -k start
+           ├─1306 /usr/sbin/apache2 -k start
+           └─1669 /usr/sbin/apache2 -k start
+
+Aug 01 11:10:35 ip-172-31-29-50 systemd[1]: Starting LSB: Apache2 web server...
+Aug 01 11:10:36 ip-172-31-29-50 apache2[1171]:  * Starting Apache httpd web server apache2
+Aug 01 11:10:37 ip-172-31-29-50 apache2[1171]:  *
+Aug 01 11:10:37 ip-172-31-29-50 systemd[1]: Started LSB: Apache2 web server.

@@ -1,0 +1,145 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Inmobiliaria;
+use App\Proyecto;
+use App\Contrato;
+
+class ContratoController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $inmobiliarias = Inmobiliaria::orderBy('nombre', 'asc')->get();
+        return view('contrato.index')->with('inmobiliarias', $inmobiliarias);
+    }
+
+    public function listarProyecto($id)
+    {
+        $proyectos = Proyecto::where('inmobiliaria_id', $id)->orderBy('nombre', 'asc')->get();
+        return json_encode($proyectos);
+    }
+
+    public function listado()
+    {
+        $inmobiliarias = Inmobiliaria::orderBy('nombre', 'asc')->get();
+        $contratos = Contrato::orderBy('id', 'asc')->get();
+        return view('contrato.listar')->with('contratos', $contratos)->with('inmobiliarias', $inmobiliarias);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $tipoProyecto   = $request->input('tipoProyecto');
+        $plan           = $request->input('plan');
+        $inmobiliaria   = $request->input('inmobiliaria'); 
+        $proyecto       = $request->input('proyecto');
+        $descuento      = $request->input('descuento'); 
+        $fecha_inicio   = $request->input('fecha_inicio');
+        $fecha_fin      = $request->input('fecha_fin');
+
+        $get_nombre_inmobiliaria = Inmobiliaria::find($inmobiliaria);
+        $nombre_inmobiliaria = $get_nombre_inmobiliaria->nombre;
+        // Insertar contrato en bd
+        $contrato = new Contrato();
+        $contrato->tipo_contrato = $tipoProyecto;
+        $contrato->descuento = $descuento;
+        $contrato->plan = $plan;
+        $contrato->fecha_inicio = $fecha_inicio;
+        $contrato->fecha_fin = $fecha_fin;
+        $contrato->proyecto = $proyecto;
+        $contrato->nombre_inmobiliaria = $nombre_inmobiliaria;
+        $contrato->inmobiliaria_id = $inmobiliaria;
+        $contrato->save();
+
+        return back()->withSuccess('Contrato agregado correctamente!');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {   
+        $contratos = Contrato::where('id', $id)->get();
+        return json_encode($contratos);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $contrato = Contrato::find($id);
+        $contrato->tipo_contrato   = $request->tipoProyecto;
+        $contrato->descuento       = $request->descuento;
+        $contrato->plan            = $request->plan;
+        $contrato->fecha_inicio    = $request->fecha_inicio;
+        $contrato->fecha_fin       = $request->fecha_fin;
+        $contrato->proyecto        = $request->proyecto;
+        $contrato->inmobiliaria_id = $request->inmobiliaria; 
+        $contrato->save();
+
+        if ($contrato) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $contrato = Contrato::find($id);
+        $contrato->delete();
+
+        if ($contrato) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}

@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateContratosTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('contratos', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('tipo_contrato', 100)->nullable($value = true);
+            $table->integer('descuento')->nullable($value = true);
+            $table->string('plan')->nullable($value = true);
+            $table->date('fecha_inicio')->nullable($value = true);
+            $table->date('fecha_fin')->nullable($value = true);
+            $table->string('proyecto', 100)->nullable($value = true);
+            $table->string('nombre_inmobiliaria', 50)->nullable($value = true);
+            $table->integer('inmobiliaria_id')->unsigned()->nullable($value = true);
+            $table->timestamps();
+            $table->foreign('inmobiliaria_id')->references('id')->on('inmobiliarias')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('contratos');
+    }
+}
